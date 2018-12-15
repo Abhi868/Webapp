@@ -6,6 +6,9 @@
     </head>
     <body>
         {% block body %}
+        <form method="GET" action="/movies/">
+            <input type="text" name="query" placeholder="Search Movies">
+        </form>
             <div class="container">
                 <h2><b>Welcome to the Imdb site</b></h2>
                

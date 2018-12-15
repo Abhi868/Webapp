@@ -1,0 +1,27 @@
+
+{% extends "catalog/base.html" %}
+
+    <!-- {% block title %}
+    <title>Home</title>
+    {% endblock %}
+
+    {% block body %}
+    <div class="container">
+        <h2><b>Welcome to the Imdb site</b></h2>
+        {% for d in values %}
+            {{d}}
+        {% endfor %}
+    </div>
+    {% endblock %} -->
+
+{% block content %}
+  <form method="get">
+    {{ filter.form.as_p }}
+    <button type="submit">Search</button>
+  </form>
+  <ul>
+  {% for movie in filter.qs %}
+    <li>{{ movie.name }} - {{movie.director}} - {{movie.imdb}}</li>
+  {% endfor %}
+  </ul>
+{% endblock %}

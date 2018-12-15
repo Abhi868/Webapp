@@ -10,43 +10,28 @@ from rest_framework.response import Response
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.views import APIView
 from rest_framework.renderers import JSONRenderer
+from .filters import MovieFilter
+from rest_framework import request
 
 
-#For users to browse through list of movies
-class movies(APIView):
-    permission_classes = (IsAuthenticatedOrReadOnly)
-    renderer_classes = (JSONRenderer,)
-    def get(self,request,fomart=None):
-        queryset=Movies.objects.all()
-        movie=MovieSerializer(queryset,many=True)
-        context={'movie_list':movie.data}
-        return Response(context)
+
+# List of all  movies. Admin can update or destroy a specific object and users 
 
 
-# List of all  movies
+
 class MovieList(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAuthenticatedOrReadOnly)
+    # permission_classes = (IsAuthenticatedOrReadOnly)
     queryset=Movies.objects.all()
     serializer_class=MovieSerializer
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'catalog/movie_list.html'
+    # renderer_classes = [TemplateHTMLRenderer]
+    # template_name = 'catalog/movie_list.html'
 
 
-    def list(self,request):
-        queryset=self.get_queryset()
-        serializer=MovieSerializer(queryset ,many=True)
-        context={"data":serializer.data}
-        return render(request,"catalog/movie_list.html" ,context)
-        
-    
-
-# Detailed view of a movie
-class CatalogDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset=Movies.objects.all()
-    serializer_class=MovieSerializer
-
+#For admin to create a movie object else will only have read access
 
 class MoviesListCreateView(generics.ListCreateAPIView):
+
+    # permission_classes = (IsAuthenticatedOrReadOnly)
     queryset=Movies.objects.all()
     serializer_class=MovieSerializer
 
@@ -57,4 +42,19 @@ class MoviesListCreateView(generics.ListCreateAPIView):
         movie.genre.add(*genre_list)
         movie.save()
 
-    
+def HomeView(request):
+    return render(request,"catalog/base.html")
+# class BaseView(request):
+#     # if request.method=="GET":
+#     #     queryset=Movies.objects.all()   
+#     #     query=request.query_params.get('q')
+#     #     if query:
+#     #         t=queryset.objects.all(name=query)
+#     #         print(t)
+
+class MovieDetailCustom(generics.RetrieveAPIView):
+   
+    queryset = Movies.objects.all()
+    serializer_class = MovieSerializer
+    lookup_field = "name"
+
