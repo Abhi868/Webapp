@@ -16,15 +16,17 @@ urlpatterns =[
     path('admin/', admin.site.urls),
     path('login/', auth_views.LoginView.as_view(),name="login"),
     path('logout/', auth_views.LogoutView.as_view(),{'template_name': 'catalog/login.html'},name="logout"),
+   
+   
+    #Search using movie name
 
     path('movies/', views.MoviesListCreateView.as_view(), name='movie-list'),
+    
     #Search using movie id
-    path('movies/<int:pk>/',views.MoviesListCreateView.as_view(), {'template_name':'catalog/base.html'}),
+    path('movies/<int:pk>/',views.MovieList.as_view(), {'template_name':'catalog/base.html'}),
     
     path('' ,views.HomeView,name="home"),
-    #Search using movie name
-    url(r'^movies/(?P<name>.+)/$', views.MovieDetailCustom.as_view(), name='movie-detail'),
-
+    
 ]
  
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'html'])

@@ -2,18 +2,26 @@
     <head>
         {% block title %}
             <title>Base</title>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+            <link rel="stylesheet" type="text/css" href="catalog/static.css">
         {% endblock %}
     </head>
     <body>
-        {% block body %}
-        <form method="GET" action="/movies/">
-            <input type="text" name="query" placeholder="Search Movies">
-        </form>
+      
+            {% block body %}
             <div class="container">
-                <h2><b>Welcome to the Imdb site</b></h2>
                
+                    <div class="container">
+                        <h2><b>Welcome to the Imdb site</b></h2> 
+                        <form method="GET" action="/movies/">
+                            <input type="text" name="q"  value={{request.GET.q}}>
+                        <button type="submit" value='search'>Search</button>
+                        </form>
+                    
+                    </div>
             </div>
-        {% endblock %}
+            {% endblock %}
+        </div>
     </body>
 
 </html>
